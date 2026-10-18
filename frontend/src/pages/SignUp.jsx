@@ -32,7 +32,8 @@ function SignUp() {
       const result = await axios.post(`${serverUrl}/api/auth/signup`,{
         fullName, email, password, mobile, role
       },{withCredentials:true})
-      dispatch(setUserData(result.data))  // console.log(result)
+      dispatch(setUserData(result.data))  
+      console.log(result)
       setErr("")
       setLoading(false)
     } catch (error) {
@@ -121,7 +122,7 @@ function SignUp() {
         
         <button className={`w-full font-semibold py-2 rounded-lg transition duration-200 bg-[#ff4d2d] text-white hover:bg-[#e64323] cursor-pointer`} onClick={handleSignUp} disabled={loading}>
           {loading ? <ClipLoader size={20} color='white'/> : "Sign Up"}
-          Sign Up
+          {/* Sign Up */}
         </button>
         {err && <p className='text-red-500 text-center my-[10px]'>*{err}</p>}
 
