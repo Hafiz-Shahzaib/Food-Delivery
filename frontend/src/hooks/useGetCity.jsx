@@ -10,17 +10,20 @@ function useGetCity() {
   const apikey = import.meta.env.VITE_GEOAPIKEY
   useEffect(()=>{
     navigator.geolocation.getCurrentPosition(async (position)=>{
-        console.log(position)
+        // console.log(position)
         const latitude = position.coords.latitude
         const longitude = position.coords.longitude
-        const result = await axios.get(`https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&format=json&apiKey=${apikey}`)
+        const lc = "Lahore"
+        const result = await axios.get(`https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&format=json&apiKey=${apikey }`)
         console.log(result)
         dispatch(setCurrentCity(result?.data?.results[0].city))
         dispatch(setCurrentState(result?.data?.results[0].state))
-        console.log(result?.data?.results[0].state)
+        // console.log(result?.data?.results[0].state)
         dispatch(setCurrentAddress(result?.data?.results[0].address_line2 || result?.data?.results[0].address_line1))
-        console.log(result?.data?.results[0].address_line2 || result?.data?.results[0].address_line1)
-        console.log(result.data)
+        // dispatch(setCurrentAddress(result?.data?.results[0].address_line2 || result?.data?.results[0].address_line1))
+        // console.log("City: ",result?.data?.results[0].lc)
+        // console.log(result?.data?.results[0].address_line2 || result?.data?.results[0].address_line1)
+        // console.log(result.data)
     })
   },[userData])
 }
