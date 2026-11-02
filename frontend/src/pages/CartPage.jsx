@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import CartItemCard from '../components/CartItemCard';
 function CartPage() {
     const navigate = useNavigate()
-    const {cartItems} = useSelector(state=>state.user)
+    const {cartItems, totalAmount} = useSelector(state=>state.user)
   return (
     <div className='min-h-screen bg-[#fff9f6] flex justify-center p-6'>
       <div className='w-full max-w-[800px]'>
@@ -18,11 +18,20 @@ function CartPage() {
         { cartItems?.length === 0 ? (
           <p className='text-gray-500 text-lg text-center'>Your cart is empty.</p>
         ) : (
-          <div>
-            {cartItems?.map((item, index) => (
-              <CartItemCard data={item} key={index} />
-            ))}
-          </div>
+          <>
+            <div className='space-y-4'>
+              {cartItems?.map((item, index) => (
+                <CartItemCard data={item} key={index} />
+              ))}
+            </div>
+            <div className='mt-6 bg-[#fff9f6] p-4 rounded-xl shadow flex justify-between items-center border'>
+              <h1 className='text-lg font-semibold'>Total Amount</h1>
+              <span className='text-xl font-bold text-[#ff4d2d]'>₹{totalAmount.toFixed(2)}</span>
+            </div>
+            <div className='mt-4 flex justify-end'>
+              <button className='bg-[#ff4d2d] text-white px-6 py-3 rounded-lg text-lg font-medium hover:bg-[#ff4d2d] transition cursor-pointer'>Proceed to CheckOut</button>
+            </div>
+          </>
         )}
       </div>
     </div>
