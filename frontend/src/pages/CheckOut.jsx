@@ -81,6 +81,7 @@ function CheckOut() {
         cartItems
       }, {withCredentials: true})
       console.log(result.data)
+      navigate("/order-placed")
     } catch (error) {
       console.log(error) 
     }
