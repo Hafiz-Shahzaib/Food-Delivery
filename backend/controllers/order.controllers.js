@@ -50,6 +50,10 @@ export const placeOrder = async (req, res) => {
             shopOrders
         })
 
+
+        await newOrder.populate("shopOrders.shopOrderItems.item", "name image price")
+        await newOrder.populate("shopOrders.shop", "name")
+
         res.status(201).json(newOrder);
 
     } catch (error) {
@@ -76,7 +80,16 @@ export const getMyOrders = async (req, res) => {
             .populate("user")
             .populate("shopOrders.shopOrderItems.item", "name image price")
 
-            return res.status(200).json(orders)
+            const filteredOrders = orders.map((order=>({
+                _id: order._id,
+                paymentMethod: order.paymentMethod,
+                user: order.user,
+                shopOrders: order.shopOrders.find(o => o.owner._id == req.userId),
+                createdAt: order.createdAt,
+                deliveryAddress: order.deliveryAddress
+            })))
+
+            return res.status(200).json(filteredOrders)
         }
    } catch (error) {
     return res.status(500).json({message: `get user orders error: ${error}`})
