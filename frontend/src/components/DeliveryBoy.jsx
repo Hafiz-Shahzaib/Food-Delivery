@@ -18,6 +18,15 @@ function DeliveryBoy() {
     }
   }
 
+  const acceptOrder = async (assignmentId) => {
+    try {
+      const result = await axios.get(`${serverUrl}/api/order/accept-order/${assignmentId}`, {withCredentials: true})
+      console.log(result.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(()=>{
     getAssignments()
   },[userData])
@@ -38,9 +47,10 @@ function DeliveryBoy() {
               <div className='border rounded-lg p-4 flex justify-between items-center' key={index}>
                 <div>
                   <p className='text-sm font-semibold'>{a?.shopName}</p>
-                  <p className='text-sm text-gray-500'>{a?.deliveryAddress.text}</p>
+                  <p className='text-sm text-gray-500'><span className='font-semibold'>Delivery Address: </span>{a?.deliveryAddress.text}</p>
                   <p className='text-xs text-gray-400'>{a.items.length} items | {a.subtotal}</p>
                 </div>
+                <button className='bg-orange-500 text-white px-4 py-1 rounded-lg text-sm hover:bg-orange-600' onClick={()=>acceptOrder(a.assignmentId)}>Accept</button>
               </div>
             ))) : <p className='text-gray-400 text-sm'>No available Order</p>}
           </div>
